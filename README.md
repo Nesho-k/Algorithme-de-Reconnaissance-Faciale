@@ -50,3 +50,34 @@ Nous ne créons que 120 images, car nous devons ensuite les annoter manuellement
 ## Augmentation des images 
 
 Une fois avoir séparer le jeu de données en trois ensembles : train set, validation et test set, nous devons ensuite augmenter le nombre d'images de notre jeu de données en utilsant la bibliothèque  **Albumentations**. Nous appliquons des transformations aléatoires (recadrage, flips, ajustements de luminosité, contraste, gamma et décalage des canaux RGB) tout en gérant les bounding box associées aux images annotées.
+
+![Capture d’écran 2025-03-06 153547](https://github.com/user-attachments/assets/68f91146-3bfd-4a97-af8b-fead3b8f69ca)
+
+Pour chaque image, nous appliquons 60 transformations aléatoires afin d'augmenter artificiellement notre jeu de données. Sachant que nous disposions initialement de 118 images, nous obtenons un total de 118 * 60 = **7 080 images**.
+
+Cette augmentation est essentielle, car un plus grand nombre d'images améliore la capacité du CNN à généraliser et à apprendre des variations naturelles des visages (éclairage, rotation, échelle, ...), ce qui conduit à de meilleures performances lors de l'entraînement.
+
+Nous sommes maintenant prêt pour la construction du modèle. 
+
+## Modèle 
+
+Nous construisons un modèle de réseau de neurones convolutifs (CNN) en nous basant sur l'architecture VGG16, que nous avons adaptée à notre cas spécifique de reconnaissance faciale. Pour cela, nous avons retiré la partie fully connected afin de permettre la prédiction de deux éléments : la classe du visage et les coordonnées de la bounding box.
+
+Ainsi, nous pouvons considérer qu’il y a "deux modèles" à construire au sein du même réseau : l’un chargé de la classification et l’autre de la régression des coordonnées de la bounding box.
+
+**Remarque :** Pour la construction du modèle, nous avons besoin des bibliothèque **Numpy** et **TensorFlow**.
+
+![Capture d’écran 2025-03-06 154249](https://github.com/user-attachments/assets/d12b54ac-68bb-4b49-b4d7-78a9309ad327)
+
+Le modèle contient 16 826 181 paramètres. 
+
+- fonctions couts
+- entrainement du modèle (graphique + interprétation)
+- prédiction
+- conclusion 
+
+
+
+
+
+
