@@ -1,5 +1,18 @@
 # Reconnaissance Faciale
 
+## Sommaire 
+
+- [Introduction](#introduction)
+- [Tâches à accomplir](#tâches-à-accomplir)
+- [Création, annotation et chargement des images ](#création-annotation-et-chargement-des-images)
+- [Augmentation des images](#augmentation-des-images) 
+- [Modèle](#modèle)
+- [Fonctions coûts](#fonctions-coûts)
+- [Entraînement du modèle](#entraînement-du-modèle)
+- [Prédiction](#prédiction)
+- [Détection en temps réel](#détection-en-temps-réel)
+- [Conclusion](#conclusion)
+
 ## Introduction 
 
 Dans ce projet, un modèle de reconnaissance faciale a été développé en utilisant TensorFlow et des techniques avancées de deep learning. L’objectif principal est de concevoir un réseau de neurones convolutifs capable de détecter et d'identifier des visages humains à partir d'images, avec une précision optimale, même en présence de variations d'éclairage, de poses ou d'expressions faciales.
