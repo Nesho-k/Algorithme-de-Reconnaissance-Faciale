@@ -71,12 +71,64 @@ Ainsi, nous pouvons considérer qu’il y a "deux modèles" à construire au sei
 
 Le modèle contient 16 826 181 paramètres. 
 
-- fonctions couts
-- entrainement du modèle (graphique + interprétation)
-- prédiction
-- conclusion 
+## Fonctions coûts 
 
+Comme nous l'avons dit précédemment, il y a "deux modèles" à construire. Pour le modèle de classification (visage ou non), la fonction coût utilisée est un Binary Cross Entropy classique. 
 
+En revanche, pour le modèle de régression, nous avons dû créer notre propre fonction coût. Elle s'inspire de la MSE. Elle prend en compte les erreurs des coordonnées de la bouding box : x_min, y_min, x_max et y_max, mais aussi les erreurs de largeur et longueur de la bouding box. 
+
+**Pourquoi séparer les erreurs de coordonnées et les erreurs de dimensions pour le modèle de régression ?**
+
+Même s'ils sont liés, ces deux erreurs n'ont pas exactement le même impact sur la localisation de l'objet. Une bounding box peut avoir un bon coin supérieur gauche mais de mauvaises dimensions, ou inversement.
+
+Les séparer permet de pondérer différemment ces erreurs et d'assurer que le modèle apprend correctement à prédire à la fois l'emplacement et la taille des bounding boxes. Cela évite qu’une erreur dans la position des coins masque une erreur dans la taille, ou inversement.
+
+## Entraînement du modèle 
+
+Nous avons entraîné le modèle avec le train set mais aussi le validation set. Le val set va nous permettre d'ajuster les hyperparamètres (comme le taux d’apprentissage ou la complexité du réseau) et à détecter un éventuel sur-ajustement (overfitting). 
+
+![Capture d’écran 2025-03-06 173246](https://github.com/user-attachments/assets/8ca2722c-c283-4dd6-95b4-cae7f3d6bb0e)
+
+**Classification loss**
+
+- La courbe bleue (train loss) est relativement stable et basse, ce qui indique que le modèle apprend bien sur l'ensemble d'entraînement.
+- La validation loss (orange) démarre haute, diminue rapidement et devient presque nulle après quelques itérations. Cela peut indiquer que le modèle devient performant pour la classification, mais il pourrait aussi y avoir un sur-ajustement (overfitting) si la validation loss atteint zéro trop rapidement.
+
+**Regréssion loss**
+
+- La courbe bleue (train loss) est relativement stable et basse, ce qui indique que le modèle apprend bien sur l'ensemble d'entraînement.
+- La courbe orange (val loss) commence élevée avec de fortes fluctuations avant de diminuer progressivement. Cela peut suggérer une variance élevée au début, mais elle semble se stabiliser.
+
+**Total loss**
+
+On sait que total loss = regress loss + 0.5*class loss. Ainsi, tout comme la régression loss :
+
+- La courbe d'entraînement (bleue) reste relativement stable et basse.
+- La validation loss (orange) a un comportement similaire à la regress loss : variations au début, puis stabilisation à un niveau faible.
+
+**Conclusion**
+
+Le modèle semble bien apprendre sur l'entraînement, car les pertes lors de l'entraînement restent faibles. Les pertes lors de la validation sont plus instables au début mais finissent par converger.
+
+## Prédiction 
+
+Le modèle a ensuite été évalué avec le test set pour vérifier si le modèle est fiable et précis : 
+
+![Capture d’écran 2025-03-06 174235](https://github.com/user-attachments/assets/ccb0bdec-396f-48ac-b575-457b8a118357)
+
+Les résultats montrent que le modèle fonctionne correctement : en l'absence de visage dans l’image, aucune bounding box n’est générée, ce qui indique une bonne capacité de filtrage des images non pertinentes. Lorsqu’un visage est présent, le modèle parvient à le détecter avec précision et à le localiser correctement à l’aide d’une bounding box bien ajustée. Ces observations confirment la fiabilité et la précision du modèle.
+
+## Détection en temps réel
+
+https://github.com/user-attachments/assets/ccc2853c-06cb-4f6f-b922-ef6bd8156e9f
+
+## Conclusion 
+
+Les performances obtenues avec le modèle sont globalement bonnes, avec des résultats convaincants sur l'ensemble d'entraînement, de validation et de test. Toutefois, certaines limitations apparaissent, notamment des bugs lorsque l’utilisateur s’éloigne de la caméra. Cela pourrait être dû à un manque de données représentatives pour ces cas spécifiques ou à des contraintes liées à la robustesse du modèle en conditions réelles.
+
+Une amélioration des performances aurait pu être faite en poursuivant l'entraînement sur un plus grand nombre d'itérations. Cependant, cela impliquerait un coût en calcul plus élevé et une augmentation significative du temps nécessaire à l'entraînement. Un compromis entre précision et efficacité a donc été trouvé dans ce projet.
+
+Des optimisations futures, comme l'utilisation de techniques d'augmentation de données ou un ajustement des hyperparamètres, pourraient permettre de corriger les instabilités observées tout en limitant le surcoût en calcul.
 
 
 
