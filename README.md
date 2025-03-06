@@ -120,7 +120,7 @@ Les résultats montrent que le modèle fonctionne correctement : en l'absence de
 
 ## Détection en temps réel
 
-https://github.com/user-attachments/assets/ccc2853c-06cb-4f6f-b922-ef6bd8156e9f
+https://github.com/user-attachments/assets/cd2e93ca-ec93-49a3-8638-d48faad24699
 
 ## Conclusion 
 
